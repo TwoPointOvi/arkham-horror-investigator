@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  TouchableOpacity,
-  Animated
-} from 'react-native';
+import { AppRegistry, StyleSheet, Image, View, TouchableOpacity, Animated } from 'react-native';
 import { ARKHAMDB } from '../shared/urls';
 
-export default class Animatedbasic extends Component {
+export default class FlipCard extends Component {
 
     UNSAFE_componentWillMount() {
         this.animatedValue = new Animated.Value(0);
@@ -124,4 +116,4 @@ const styles = StyleSheet.create({
     }
 });
 
-AppRegistry.registerComponent('animatedbasic', () => Animatedbasic);
+AppRegistry.registerComponent('flipcard', () => FlipCard);

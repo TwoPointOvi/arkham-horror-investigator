@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import Animatedbasic from './FlipCardComponent';
-
-export const ARKHAMDB = "https://arkhamdb.com";
-export const ARKHAMDB_CARDS =  ARKHAMDB + "/api/public/cards/";
+import FlipCard from './FlipCardComponent';
+import { ARKHAMDB_CARDS } from '../shared/urls';
 
 type MyState = { cardData: any, isLoading: boolean };
 
@@ -48,13 +46,13 @@ class Main extends Component<{}, MyState> {
                             return(
                                 <View>
                                     <Text>
-                                        {index + ". " + item.name + "\t" + item.url + "\t" + item.imagesrc + "\t" + item.backimagesrc + "\n"}
+                                        {index+1 + ". " + item.name + "\t" + item.url + "\t" + item.imagesrc + "\t" + item.backimagesrc + "\n"}
                                     </Text>
                                     <View style={styles.containerRow}>
                                         {/* {this.getInvestigatorCard(item.imagesrc)}
                                         {this.getInvestigatorCard(item.backimagesrc)} */}
                                     </View>
-                                    <Animatedbasic frontImageUrl={item.imagesrc} backImageUrl={item.backimagesrc}></Animatedbasic>
+                                    <FlipCard frontImageUrl={item.imagesrc} backImageUrl={item.backimagesrc}></FlipCard>
                                 </View>
                             );
                         })
