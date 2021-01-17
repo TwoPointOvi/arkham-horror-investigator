@@ -28,7 +28,14 @@ class Main extends Component<{}, MyState> {
                 const investigators = resJSON.filter((cards:any) => cards.type_code === "investigator" 
                                                                     && cards.pack_code !== "promo"
                                                                     && cards.imagesrc);
-                this.setState({ cardData: investigators });
+                let seenNames:any = {};                                                    
+                const investigatorNoDup = investigators.filter((card: any) => {
+                    if (!(card.name in seenNames)) {
+                        seenNames[card.name] = true;
+                        return true;
+                    }
+                });
+                this.setState({ cardData: investigatorNoDup });
             })
             .catch(error => console.error(error))
             .finally(() => { 
