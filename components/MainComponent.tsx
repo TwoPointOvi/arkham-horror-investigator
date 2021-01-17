@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
@@ -45,29 +45,43 @@ class Main extends Component<{}, MyState> {
 
     render() {
         const { cardData, isLoading } = this.state;
-        return (
-            <View style={styles.container}>
-                <ScrollView>
-                    {isLoading ? <ActivityIndicator></ActivityIndicator> : (
-                        cardData.map((item:any, index:number) => {
-                            return(
-                                <View>
-                                    <Text>
-                                        {index+1 + ". " + item.name + "\t" + item.url + "\t" + item.imagesrc + "\t" + item.backimagesrc + "\n"}
-                                    </Text>
-                                    <View style={styles.containerRow}>
-                                        {/* {this.getInvestigatorCard(item.imagesrc)}
-                                        {this.getInvestigatorCard(item.backimagesrc)} */}
-                                    </View>
-                                    <FlipCard frontImageUrl={item.imagesrc} backImageUrl={item.backimagesrc}></FlipCard>
-                                </View>
-                            );
-                        })
-                    )}
-                    <StatusBar style="auto" />
-                </ScrollView>
-            </View>
-        );
+
+
+        const renderInvestigatorListItem = ({item, index}) => {
+            return (
+                <View style={styles.itemContainer}>
+                    <Text>
+                        {index+1 + ". " + item.name + "\n"}
+                    </Text>
+                    <FlipCard frontImageUrl={item.imagesrc} backImageUrl={item.backimagesrc}></FlipCard>
+                </View>
+            );
+        }
+
+
+        if (isLoading) {
+            return (
+                <View style={styles.container}>
+                    <ScrollView>
+                        <ActivityIndicator></ActivityIndicator>
+                        <StatusBar style="auto" />
+                    </ScrollView>
+                </View>
+            );
+        } else {
+            return (
+                <View style={styles.container}>
+                    <ScrollView>
+                        <FlatList
+                            data={cardData}
+                            renderItem={renderInvestigatorListItem}
+                            keyExtractor={item => item.name}>
+                        </FlatList>
+                        <StatusBar style="auto" />
+                    </ScrollView>
+                </View>
+            );
+        }
     }
 }
 
@@ -79,13 +93,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    containerRow: {
+    itemContainer: {
         flex: 1,
-        flexDirection: 'row',
-    },
-    investigatorCard: {
-        width: 418,
-        height: 300
+        flexDirection: 'column',
+        alignItems: 'center',
     }
 });
 
