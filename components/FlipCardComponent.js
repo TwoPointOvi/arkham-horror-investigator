@@ -33,13 +33,15 @@ export default class FlipCard extends Component {
             Animated.spring(this.animatedValue,{
                 toValue: 0,
                 friction: 8,
-                tension: 10
+                tension: 10,
+                useNativeDriver: true
             }).start();
         } else {
             Animated.spring(this.animatedValue,{
                 toValue: 180,
                 friction: 8,
-                tension: 10
+                tension: 10,
+                useNativeDriver: true
             }).start();
         }
     }

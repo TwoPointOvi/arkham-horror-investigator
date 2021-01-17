@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList, ListRenderItem } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
@@ -47,7 +47,7 @@ class Main extends Component<{}, MyState> {
         const { cardData, isLoading } = this.state;
 
 
-        const renderInvestigatorListItem = ({item, index}) => {
+        const renderInvestigatorListItem: ListRenderItem<any> = ({item, index}) => {
             return (
                 <View style={styles.itemContainer}>
                     <Text>
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         flex: 1,
+        padding: 5,
         flexDirection: 'column',
         alignItems: 'center',
     }
