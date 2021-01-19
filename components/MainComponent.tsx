@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList,
 import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
+import { ListItem } from "react-native-elements";
 
 type MyState = { cardData: any, isLoading: boolean };
 
@@ -49,12 +50,24 @@ class Main extends Component<{}, MyState> {
 
         const renderInvestigatorListItem: ListRenderItem<any> = ({item, index}) => {
             return (
-                <View style={styles.itemContainer}>
-                    <Text>
-                        {index+1 + ". " + item.name + "\n"}
-                    </Text>
-                    <FlipCard frontImageUrl={item.imagesrc} backImageUrl={item.backimagesrc}></FlipCard>
-                </View>
+
+                <ListItem
+                    key={index}
+                    topDivider
+                    bottomDivider>
+                    <ListItem.Content>
+                        <ListItem.Title>{item.name}</ListItem.Title>
+                        <ListItem.Subtitle>{item.subname}</ListItem.Subtitle>
+                    </ListItem.Content>
+                    <ListItem.Chevron color="purple"></ListItem.Chevron>
+                </ListItem>
+
+                // <View style={styles.itemContainer}>
+                //     <Text>
+                //         {index+1 + ". " + item.name + "\n"}
+                //     </Text>
+                //     {/* <FlipCard frontImageUrl={item.imagesrc} backImageUrl={item.backimagesrc}></FlipCard> */}
+                // </View>
             );
         }
 
