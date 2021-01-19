@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList, ListRenderItem } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList, ListRenderItem, Text } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
@@ -7,7 +7,7 @@ import { ListItem } from "react-native-elements";
 
 type MyState = { cardData: any, isLoading: boolean };
 
-class Main extends Component<{}, MyState> {
+class Main extends Component<{ navigation:any }, MyState> {
 
     constructor(props:any) {
         super(props);
@@ -46,6 +46,7 @@ class Main extends Component<{}, MyState> {
 
     render() {
         const { cardData, isLoading } = this.state;
+        const { navigate } = this.props.navigation;
 
 
         const renderInvestigatorListItem: ListRenderItem<any> = ({item, index}) => {
@@ -54,7 +55,8 @@ class Main extends Component<{}, MyState> {
                 <ListItem
                     key={index}
                     topDivider
-                    bottomDivider>
+                    bottomDivider
+                    onPress={() => navigate('InvestigatorDetails', { investigatorData: item })}>
                     <ListItem.Content>
                         <ListItem.Title>{item.name}</ListItem.Title>
                         <ListItem.Subtitle>{item.subname}</ListItem.Subtitle>
