@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList, ListR
 import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
-import { ListItem } from "react-native-elements";
+import { Avatar, ListItem } from "react-native-elements";
 
 type MyState = { cardData: any, isLoading: boolean };
 
@@ -48,8 +48,8 @@ class Main extends Component<{ navigation:any }, MyState> {
         const { cardData, isLoading } = this.state;
         const { navigate } = this.props.navigation;
 
-
         const renderInvestigatorListItem: ListRenderItem<any> = ({item, index}) => {
+            const name = item.name.toLowerCase().replace(/\s/g, '-').replace(/["']/g, "");
             return (
 
                 <ListItem
@@ -57,6 +57,11 @@ class Main extends Component<{ navigation:any }, MyState> {
                     topDivider
                     bottomDivider
                     onPress={() => navigate('InvestigatorDetails', { investigatorData: item })}>
+                    <Avatar rounded
+                        avatarStyle={{position: 'absolute', height: 110}}
+                        size="large" 
+                        source={require("../assets/investigators/portrait/" + name + ".png")} 
+                        ></Avatar>
                     <ListItem.Content>
                         <ListItem.Title>{item.name}</ListItem.Title>
                         <ListItem.Subtitle>{item.subname}</ListItem.Subtitle>
@@ -103,7 +108,7 @@ class Main extends Component<{ navigation:any }, MyState> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
         backgroundColor: '#A9A9A9',
         alignItems: 'center',
         justifyContent: 'center',
