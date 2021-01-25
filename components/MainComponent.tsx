@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList, ListRenderItem, Text } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Image, ScrollView, FlatList, ListRenderItem, Text, ImageBackground } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
@@ -7,6 +7,8 @@ import { Avatar, ListItem } from "react-native-elements";
 import { INVESTIGATORS_INFO } from "../shared/filepaths";
 
 type MyState = { cardData: any, isLoading: boolean };
+
+const CARDBACK = require("../assets/card_back.png");
 
 class Main extends Component<{ navigation:any }, MyState> {
 
@@ -63,17 +65,19 @@ class Main extends Component<{ navigation:any }, MyState> {
                     key={index}
                     topDivider
                     bottomDivider
-                    onPress={() => navigate('InvestigatorDetails', { investigatorData: item })}>
+                    onPress={() => navigate('InvestigatorDetails', { investigatorData: item })}
+                    containerStyle={{backgroundColor: "transparent", borderColor: "white"}}
+                    >
                     <Avatar rounded
                         avatarStyle={{position: 'absolute', height: 110}}
                         size="large" 
                         source={item.src} 
                         ></Avatar>
                     <ListItem.Content>
-                        <ListItem.Title>{item.name}</ListItem.Title>
-                        <ListItem.Subtitle>{item.subname}</ListItem.Subtitle>
+                        <ListItem.Title style={styles.text}>{item.name}</ListItem.Title>
+                        <ListItem.Subtitle style={styles.text}>{item.subname}</ListItem.Subtitle>
                     </ListItem.Content>
-                    <ListItem.Chevron color="purple"></ListItem.Chevron>
+                    <ListItem.Chevron color="white"></ListItem.Chevron>
                 </ListItem>
 
                 // <View style={styles.itemContainer}>
@@ -98,14 +102,16 @@ class Main extends Component<{ navigation:any }, MyState> {
         } else {
             return (
                 <View style={styles.container}>
-                    <ScrollView>
-                        <FlatList
-                            data={cardData}
-                            renderItem={renderInvestigatorListItem}
-                            keyExtractor={item => item.name}>
-                        </FlatList>
-                        <StatusBar style="auto" />
-                    </ScrollView>
+                    <ImageBackground source={CARDBACK} style={styles.backgroundImage}>
+                        <ScrollView>
+                            <FlatList
+                                data={cardData}
+                                renderItem={renderInvestigatorListItem}
+                                keyExtractor={item => item.name}>
+                            </FlatList>
+                            <StatusBar style="auto" />
+                        </ScrollView>
+                    </ImageBackground>
                 </View>
             );
         }
@@ -120,11 +126,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    backgroundImage: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
+    },
     itemContainer: {
         flex: 1,
         padding: 5,
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    text: {
+        color: "white",
+        fontWeight: "bold",
+        textShadowColor:'blue',
+        textShadowOffset:{width: 5, height: 5},
+        textShadowRadius: 20,
     }
 });
 
