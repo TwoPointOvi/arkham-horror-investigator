@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import FlipCard from './FlipCardComponent';
 import { ARKHAMDB_CARDS } from '../shared/urls';
 import { Avatar, ListItem } from "react-native-elements";
+import { INVESTIGATORS_INFO } from "../shared/filepaths";
 
 type MyState = { cardData: any, isLoading: boolean };
 
@@ -19,7 +20,8 @@ class Main extends Component<{ navigation:any }, MyState> {
     }
 
     componentDidMount() {
-        this.getArkhamHorrorCards();
+        // this.getArkhamHorrorCards();
+        this.getArkhamHorrorInvestigatorCardData();
     }
 
     getArkhamHorrorCards() {
@@ -36,6 +38,7 @@ class Main extends Component<{ navigation:any }, MyState> {
                         return true;
                     }
                 });
+                // this.saveData(investigatorNoDup);
                 this.setState({ cardData: investigatorNoDup });
             })
             .catch(error => console.error(error))
@@ -44,14 +47,18 @@ class Main extends Component<{ navigation:any }, MyState> {
             });
     }
 
+    getArkhamHorrorInvestigatorCardData() {
+        this.setState({ cardData: INVESTIGATORS_INFO });
+        this.setState({ isLoading: false });
+    }
+
     render() {
         const { cardData, isLoading } = this.state;
         const { navigate } = this.props.navigation;
 
         const renderInvestigatorListItem: ListRenderItem<any> = ({item, index}) => {
-            const name = item.name.toLowerCase().replace(/\s/g, '-').replace(/["']/g, "");
+            // console.log(item);
             return (
-
                 <ListItem
                     key={index}
                     topDivider
@@ -60,7 +67,7 @@ class Main extends Component<{ navigation:any }, MyState> {
                     <Avatar rounded
                         avatarStyle={{position: 'absolute', height: 110}}
                         size="large" 
-                        source={require("../assets/investigators/portrait/" + name + ".png")} 
+                        source={item.src} 
                         ></Avatar>
                     <ListItem.Content>
                         <ListItem.Title>{item.name}</ListItem.Title>
